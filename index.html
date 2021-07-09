@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circles</title>
+    <script src="src/index.js"></script>
+  </head>
+  <body>
+    <form>
+      Number of circles:<br />
+      <input type="text" id="number" name="Number" />
+      <br />
+      Size of circles:<br />
+      <input type="text" id="size" name="Size" />
+      <br /><br />
+    </form>
+    <button onclick="click1()">Submit</button>
+
+    <p>Choose your type of line:</p>
+
+    <input
+      onclick="click2()"
+      type="radio"
+      id="dash"
+      name="group"
+      value="dash"
+    />
+    <label for="dash">Dotted</label><br />
+    <input
+      onclick="click2()"
+      type="radio"
+      id="line"
+      name="group"
+      value="line"
+    />
+    <label for="line">Straight</label><br />
+
+    <p>Choose your color:</p>
+
+    <input onclick="click3()" type="radio" id="red" name="color" value="red" />
+    <label for="red">Red</label><br />
+    <input
+      onclick="click3()"
+      type="radio"
+      id="blue"
+      name="color"
+      value="blue"
+    />
+    <label for="blue">Blue</label><br />
+
+    <div id="app">
+      <canvas id="canvas" width="1000" height="800"></canvas>
+
+      <script>
+        function click3() {
+          click2();
+        }
+
+        function click2() {
+          click1();
+
+          var canvas_line = document.getElementById("canvas");
+          var ct = canvas_line.getContext("2d");
+          var size = document.getElementById("size").value;
+          var number = document.getElementById("number").value;
+
+          if (document.getElementById("dash").checked) {
+            for (i = 0; i < number; i++) {
+              var x = 900;
+              var y = (i + 1) * size * 4;
+              ct.beginPath();
+              ct.setLineDash([3, 6]);
+              ct.moveTo(x - size, y);
+              ct.lineTo(200, 150);
+              ct.stroke();
+            }
+          }
+
+          if (document.getElementById("line").checked) {
+            for (i = 0; i < number; i++) {
+              var x = 900;
+              var y = (i + 1) * size * 4;
+              ct.beginPath();
+              ct.setLineDash([]);
+              ct.moveTo(x - size, y);
+              ct.lineTo(200, 150);
+              ct.stroke();
+            }
+          }
+          if (document.getElementById("red").checked) {
+            ct.strokeStyle = "#FF0000";
+          }
+
+          if (document.getElementById("blue").checked) {
+            ct.strokeStyle = "#0000FF";
+          }
+
+          // ct.restore();
+        }
+
+        function click1() {
+          var size = document.getElementById("size").value;
+          var number = document.getElementById("number").value;
+          console.log(size);
+          console.log(number);
+          var total_circles = number;
+          var total_lines = number;
+          var canvas = document.getElementById("canvas");
+          var ctx = canvas.getContext("2d");
+          var cx = canvas.width;
+          var cy = canvas.height;
+
+          // ctx.restore();
+          ctx.clearRect(0, 0, 1000, 800);
+          ctx.setLineDash([]);
+
+          var coords = [[150, 150]];
+          for (var i = 0; i < coords.length; i++) {
+            ctx.beginPath();
+            ctx.arc(150, 150, 50, 0, Math.PI * 2, true);
+            ctx.stroke();
+          }
+
+          for (i = 0; i < total_circles; i++) {
+            var x = 900;
+            var y = (i + 1) * size * 4;
+
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        }
+      </script>
+
+      <br />
+    </div>
+  </body>
+</html>
